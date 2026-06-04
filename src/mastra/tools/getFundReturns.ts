@@ -12,7 +12,7 @@ const pool = new Pool({
 export const getFundReturnsTool = createTool({
   id: "get-fund-returns",
 
-  description: "Calculate mutual fund return using latest NAV",
+  description: "Calculate mutual fund returns",
 
   inputSchema: z.object({
     fundId: z.string(),
@@ -30,9 +30,24 @@ export const getFundReturnsTool = createTool({
       [input.fundId]
     );
 
-    const navResult = await pool.query(
+    if (fundResult.rows.length === 0) {
+      throw new Error("Fund not found");
+    }
+
+    const firstNavResult = await pool.query(
       `
-      SELECT *
+      SELECT nav, nav_date
+      FROM fund_navs
+      WHERE fund_id = $1
+      ORDER BY nav_date ASC
+      LIMIT 1
+      `,
+      [input.fundId]
+    );
+
+    const latestNavResult = await pool.query(
+      `
+      SELECT nav, nav_date
       FROM fund_navs
       WHERE fund_id = $1
       ORDER BY nav_date DESC
@@ -42,15 +57,26 @@ export const getFundReturnsTool = createTool({
     );
 
     if (
-      fundResult.rows.length === 0 ||
-      navResult.rows.length === 0
+      firstNavResult.rows.length === 0 ||
+      latestNavResult.rows.length === 0
     ) {
-      throw new Error("Fund not found");
+      throw new Error("NAV history not found");
     }
 
+    const startNav = Number(firstNavResult.rows[0].nav);
+    const endNav = Number(latestNavResult.rows[0].nav);
+
+    const returnPercent =
+      ((endNav - startNav) / startNav) * 100;
+
     return {
-      fund: fundResult.rows[0],
-      latestNav: navResult.rows[0],
+      fundId: input.fundId,
+      fundName: fundResult.rows[0].fund_name,
+      startDate: firstNavResult.rows[0].nav_date,
+      endDate: latestNavResult.rows[0].nav_date,
+      startNav,
+      endNav,
+      returnPercent: Number(returnPercent.toFixed(2)),
     };
   },
 });

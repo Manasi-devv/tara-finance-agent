@@ -50,5 +50,5 @@ Guidelines:
   getPortfolioValueTool,
   },
 
-  memory: new Memory(),
+  //memory: new Memory(),
 });

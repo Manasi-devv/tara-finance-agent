@@ -18,6 +18,7 @@ export const aggregateTransactionsTool = createTool({
   inputSchema: z.object({
     startDate: z.string().optional(),
     endDate: z.string().optional(),
+    ignoreTransfers: z.boolean().default(false)
   }),
 
   outputSchema: z.any(),
@@ -44,7 +45,9 @@ export const aggregateTransactionsTool = createTool({
       sql += ` AND transaction_date <= $${index++}`;
       values.push(input.endDate);
     }
-
+    if (input.ignoreTransfers) {
+  sql += ` AND category != 'transfer'`;
+}
     sql += `
       GROUP BY category
       ORDER BY total_amount DESC

@@ -7,8 +7,9 @@
     "dev": "mastra dev",
     "build": "mastra build",
     "start": "mastra start",
-    "ingest": "tsx scripts/ingest.ts"
-    "evaluate": "tsx scripts/evaluate.ts"
+    "ingest": "tsx scripts/ingest.ts",
+    "evaluate": "tsx scripts/evaluate.ts",
+    "api": "tsx src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -26,13 +27,16 @@
     "@mastra/loggers": "^1.1.2",
     "@mastra/memory": "^1.20.2",
     "@mastra/observability": "^1.14.1",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "fs-extra": "^11.3.5",
     "pg": "^8.21.0",
     "tsx": "^4.22.4",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",

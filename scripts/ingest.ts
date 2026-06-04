@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import dotenv from "dotenv";
 import { Pool } from "pg";
-
+import { normalizeMerchant } from "../src/mastra/utils/merchantAliases";
 dotenv.config();
 
 const pool = new Pool({
@@ -57,11 +57,12 @@ async function main() {
         txn.id,
         txn.date,
         txn.merchant,
-        txn.merchant?.toLowerCase(),
+        normalizeMerchant(txn.merchant),
         txn.category,
         txn.amount,
         txn.currency,
         txn.memo,
+
       ]
     );
   }
