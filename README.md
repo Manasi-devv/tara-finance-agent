@@ -1,30 +1,62 @@
-# tara-finance-agent
+# Tara Finance Agent
 
-Welcome to your new [Mastra](https://mastra.ai/) project! We're excited to see what you'll build.
+## Overview
 
-## Getting Started
+Personal finance assistant built using Mastra and PostgreSQL.
 
-Start the development server:
+## Features
 
-```shell
+- Transaction analysis
+- Category spending summaries
+- Merchant insights
+- Portfolio valuation
+- Fund analysis
+
+## Setup
+
+### Install
+
+```bash
+npm install
+```
+
+### Database
+
+```sql
+CREATE DATABASE provue_tara;
+```
+
+### Environment
+
+```env
+DATABASE_URL=postgresql://postgres:password@localhost:5432/provue_tara
+GOOGLE_API_KEY=your_key
+```
+
+### Load Data
+
+```bash
+set DATA_DIR=./data/sample_a
+npm run ingest
+```
+
+### Run
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:4111](http://localhost:4111) in your browser to access [Mastra Studio](https://mastra.ai/docs/studio/overview). It provides an interactive UI for building and testing your agents, along with a REST API that exposes your Mastra application as a local service. This lets you start building without worrying about integration right away.
+## Sample Questions
 
-You can start editing files inside the `src/mastra` directory. The development server will automatically reload whenever you make changes.
+- Show spending by category
+- Show health transactions
+- Top 5 merchants by spend
+- What is my portfolio worth today?
+- Show holding return for fund_bluechip
 
-## Learn more
+## Tech Stack
 
-To learn more about Mastra, visit our [documentation](https://mastra.ai/docs/). Your bootstrapped project includes example code for [agents](https://mastra.ai/docs/agents/overview), [tools](https://mastra.ai/docs/agents/using-tools), [workflows](https://mastra.ai/docs/workflows/overview), [scorers](https://mastra.ai/docs/evals/overview), and [observability](https://mastra.ai/docs/observability/overview).
-
-If you're new to AI agents, check out our [course](https://mastra.ai/learn) and [YouTube videos](https://youtube.com/@mastra-ai). You can also join our [Discord](https://discord.gg/BTYqqHKUrf) community to get help and share your projects.
-
-## Deploy to the Mastra platform
-
-The [Mastra platform](https://projects.mastra.ai) provides two products for deploying and managing AI applications built with the Mastra framework:
-
-- **Studio**: A hosted visual environment for testing agents, running workflows, and inspecting traces
-- **Server**: A production deployment target that runs your Mastra application as an API server
-
-Learn more in the [Mastra platform documentation](https://mastra.ai/docs/mastra-platform/overview).
+- Mastra
+- PostgreSQL
+- TypeScript
+- Gemini

@@ -8,6 +8,7 @@
     "build": "mastra build",
     "start": "mastra start",
     "ingest": "tsx scripts/ingest.ts"
+    "evaluate": "tsx scripts/evaluate.ts"
   },
   "keywords": [],
   "author": "",
