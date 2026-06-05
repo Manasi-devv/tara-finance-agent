@@ -238,9 +238,7 @@ npm run build
 
 Public URL:
 
-```text
-PASTE_RAILWAY_URL_HERE
-```
+https://tara-finance-agent-lfal.onrender.com
 
 Health Endpoint:
 
