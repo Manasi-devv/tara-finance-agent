@@ -13,7 +13,35 @@ const questions = [
   "Monthly spending summary",
 ];
 
-console.log("Evaluation Questions");
-questions.forEach((q, i) => {
-  console.log(`${i + 1}. ${q}`);
-});
+async function runEvaluation() {
+  for (const question of questions) {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/ask",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            question,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      console.log("\n================================");
+      console.log("QUESTION:");
+      console.log(question);
+
+      console.log("\nANSWER:");
+      console.log(data.answer || data.error);
+      console.log("================================");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+runEvaluation();

@@ -1,11 +1,14 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { taraAgent } from "./mastra/agents/tara-agent";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static("src/public"));
 
 app.post("/ask", async (req, res) => {
   try {
@@ -31,10 +34,15 @@ app.post("/ask", async (req, res) => {
   }
 });
 
+// Serve UI page
 app.get("/", (_req, res) => {
+  res.sendFile(path.resolve("src/public/index.html"));
+});
+
+// Optional health endpoint
+app.get("/health", (_req, res) => {
   res.json({
     status: "ok",
-    service: "tara-finance-agent",
   });
 });
 

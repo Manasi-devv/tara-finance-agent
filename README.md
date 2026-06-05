@@ -2,9 +2,13 @@
 
 ## Overview
 
-Tara Finance Agent is an AI-powered personal finance assistant built using Mastra, PostgreSQL, and TypeScript.
+Tara Finance Agent is an AI-powered personal finance assistant built using Mastra, PostgreSQL, TypeScript, and Groq.
 
-The system allows users to analyze transaction history, spending patterns, merchant activity, mutual fund performance, and portfolio returns through natural language queries.
+The system enables users to analyze transaction history, spending patterns, merchant activity, mutual fund performance, portfolio valuation, and holding returns through natural language queries.
+
+The agent uses tool-based reasoning to retrieve and calculate financial information directly from PostgreSQL, ensuring grounded and reliable responses.
+
+---
 
 ## Features
 
@@ -18,25 +22,29 @@ The system allows users to analyze transaction history, spending patterns, merch
 ### Spending Analytics
 
 * Category-wise spending summary
-* Top merchants by spend
 * Spending aggregation
+* Top merchants by spend
+* Expense breakdown analysis
 
 ### Mutual Fund Analytics
 
 * Fund NAV analysis
-* Fund return calculation
-* Holding return calculation
+* Fund return calculations
+* Holding return calculations
 * Portfolio valuation
 
 ### AI Agent
 
-* Natural language financial queries
-* Tool-driven responses
-* Database-backed insights
+* Natural language financial questions
+* Tool-based reasoning
+* Database-backed responses
+* Grounded financial calculations
 
 ### API
 
-POST /ask endpoint for external evaluation and integrations.
+* POST /ask endpoint
+* JSON request/response format
+* External evaluator compatible
 
 ---
 
@@ -48,24 +56,32 @@ POST /ask endpoint for external evaluation and integrations.
 * Node.js
 * Express
 * Zod
+* Groq LLM
 
 ---
 
 ## Project Structure
 
+```text
 src/
 ├── mastra/
-│ ├── agents/
-│ ├── tools/
-│ ├── workflows/
-│ └── index.ts
+│   ├── agents/
+│   ├── tools/
+│   ├── workflows/
+│   └── index.ts
+├── public/
+│   └── index.html
 ├── server.ts
+
 scripts/
-└── ingest.ts
+├── ingest.ts
+└── evaluate.ts
+
 data/
 ├── sample_a/
 ├── sample_b/
 └── sample_c/
+```
 
 ---
 
@@ -75,21 +91,29 @@ data/
 npm install
 ```
 
+---
+
 ## Environment Variables
 
-Create a .env file:
+Create a `.env` file:
 
 ```env
 DATABASE_URL=postgresql://username:password@localhost:5432/tara_finance
-GOOGLE_API_KEY=your_google_api_key
+GROQ_API_KEY=your_groq_api_key
 DATA_DIR=./data/sample_a
 ```
 
+---
+
 ## Data Ingestion
+
+Load the dataset into PostgreSQL:
 
 ```bash
 npm run ingest
 ```
+
+---
 
 ## Run Development Server
 
@@ -99,7 +123,11 @@ npm run dev
 
 Mastra Studio:
 
+```text
 http://localhost:4111
+```
+
+---
 
 ## Run API Server
 
@@ -109,7 +137,44 @@ npm run api
 
 API Base URL:
 
+```text
 http://localhost:3000
+```
+
+---
+
+## Database Schema
+
+### transactions
+
+* id
+* transaction_date
+* merchant
+* normalized_merchant
+* category
+* amount
+* currency
+* memo
+
+### funds
+
+* fund_id
+* fund_name
+* category
+
+### fund_navs
+
+* fund_id
+* nav_date
+* nav
+
+### holdings
+
+* fund_id
+* fund_name
+* units
+* purchase_date
+* purchase_nav
 
 ---
 
@@ -137,12 +202,27 @@ POST /ask
 
 ## Example Queries
 
+* What is my portfolio worth today?
 * Show spending by category
 * Top 5 merchants by spend
+* Show grocery transactions
 * Show health transactions
-* What is my portfolio worth today?
-* Return for fund_bluechip
-* What is the return on my holding in fund_bluechip?
+* Show food expenses
+* Show holding return for fund_bluechip
+* Show transactions for Apollo
+* Fund return analysis
+
+---
+
+## Evaluation
+
+Run:
+
+```bash
+npm run evaluate
+```
+
+The evaluation script sends multiple financial questions to the `/ask` endpoint and verifies that the agent produces valid responses using its tools.
 
 ---
 
@@ -151,6 +231,40 @@ POST /ask
 ```bash
 npm run build
 ```
+
+---
+
+## Deployment
+
+Public URL:
+
+```text
+PASTE_RAILWAY_URL_HERE
+```
+
+Health Endpoint:
+
+```text
+GET /health
+```
+
+Ask Endpoint:
+
+```text
+POST /ask
+```
+
+---
+
+## Observability
+
+The system provides:
+
+* Request logging
+* Tool execution visibility
+* Error logging
+* Railway deployment logs
+* Mastra tracing support
 
 ---
 
