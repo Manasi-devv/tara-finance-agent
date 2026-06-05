@@ -98,7 +98,7 @@ npm install
 Create a `.env` file:
 
 ```env
-DATABASE_URL=postgresql://username:password@localhost:5432/tara_finance
+DATABASE_URL=postgresql://neondb_owner:npg_Aou1MQSEH8zr@ep-icy-rice-apy6qkgg-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
 GROQ_API_KEY=your_groq_api_key
 DATA_DIR=./data/sample_a
 ```
